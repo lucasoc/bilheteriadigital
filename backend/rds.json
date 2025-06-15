@@ -1,0 +1,33 @@
+{
+  "estoque": {
+    "Consultoria com Michel": 0,
+    "Cafe com Danilo": 10,
+    "Bate Papo com Silva": 8,
+    "Acompanhamento com Celso": 7,
+    "Papo Carreira com Shindi": 6
+  },
+  "compras": [
+    {
+      "usuarioId": "lucas123",
+      "cargoId": "Cargo Junior",
+      "produtos": {
+        "Cafe com Danilo": 1,
+        "Papo Carreira com Shindi": 2
+      }
+    },
+    {
+      "usuarioId": "lucas123",
+      "cargoId": "coordenador",
+      "produtos": {
+        "Consultoria com Michel": 2
+      }
+    },
+    {
+      "usuarioId": "lucas123",
+      "cargoId": "senior",
+      "produtos": {
+        "Consultoria com Michel": 3
+      }
+    }
+  ]
+}

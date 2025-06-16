@@ -4,11 +4,32 @@ import { useLocation, useNavigate } from "react-router-dom";
 function Produtos() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { cargo } = location.state || {};
-  const usuarioId = "lucas123"; // fixo para exemplo
+  const { cargo, expirationTime } = location.state || {};
+  const usuarioId = "lucas123";
 
   const [produtos, setProdutos] = useState({});
   const [selecionados, setSelecionados] = useState({});
+  const [tempoRestante, setTempoRestante] = useState(0);
+
+  useEffect(() => {
+    const agora = Math.floor(Date.now() / 1000);
+    const tempo = expirationTime ? expirationTime - agora : 0;
+    setTempoRestante(tempo > 0 ? tempo : 0);
+
+    const intervalo = setInterval(() => {
+      setTempoRestante((prev) => {
+        if (prev <= 1) {
+          clearInterval(intervalo);
+          alert("Sua reserva expirou. Retornando à tela inicial.");
+          navigate("/");
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalo);
+  }, [expirationTime, navigate]);
 
   useEffect(() => {
     const carregarProdutos = async () => {
@@ -50,6 +71,12 @@ function Produtos() {
     }
   };
 
+  const formatarTempo = (segundos) => {
+    const min = Math.floor(segundos / 60).toString().padStart(2, "0");
+    const seg = (segundos % 60).toString().padStart(2, "0");
+    return `${min}:${seg}`;
+  };
+
   return (
     <div
       style={{
@@ -65,11 +92,23 @@ function Produtos() {
           color: "#FF6A13",
           fontSize: "2.5rem",
           textAlign: "center",
-          marginBottom: "2rem",
+          marginBottom: "1rem",
         }}
       >
         Escolha de Produtos Adicionais
       </h1>
+
+      <p
+        style={{
+          textAlign: "center",
+          fontSize: "1.2rem",
+          fontWeight: "bold",
+          color: "#FF6A13",
+          marginBottom: "2rem",
+        }}
+      >
+        Tempo restante para finalizar: {formatarTempo(tempoRestante)}
+      </p>
 
       <div
         style={{

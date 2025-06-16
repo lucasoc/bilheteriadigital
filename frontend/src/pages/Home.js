@@ -39,7 +39,7 @@ function Home() {
       });
       const data = await response.json();
       if (data.sucesso) {
-        navigate("/produtos", { state: { cargo: cargoId } });
+        navigate("/produtos", { state: { cargo: cargoId, expirationTime: data.expirationTime } });
       } else {
         alert("Esse cargo já está reservado!");
         window.location.reload();

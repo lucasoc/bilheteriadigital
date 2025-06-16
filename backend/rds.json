@@ -1,10 +1,10 @@
 {
   "estoque": {
     "Consultoria com Michel": 0,
-    "Cafe com Danilo": 10,
-    "Bate Papo com Silva": 8,
-    "Acompanhamento com Celso": 7,
-    "Papo Carreira com Shindi": 6
+    "Cafe com Danilo": 0,
+    "Bate Papo com Silva": 0,
+    "Acompanhamento com Celso": 3,
+    "Papo Carreira com Shindi": 0
   },
   "compras": [
     {
@@ -27,6 +27,64 @@
       "cargoId": "senior",
       "produtos": {
         "Consultoria com Michel": 3
+      }
+    },
+    {
+      "usuarioId": "lucas123",
+      "cargoId": "coordenador",
+      "produtos": {
+        "Consultoria com Michel": 0,
+        "Papo Carreira com Shindi": 1,
+        "Cafe com Danilo": 2,
+        "Acompanhamento com Celso": 1
+      }
+    },
+    {
+      "usuarioId": "lucas123",
+      "cargoId": "junior",
+      "produtos": {
+        "Papo Carreira com Shindi": 5
+      }
+    },
+    {
+      "usuarioId": "lucas123",
+      "cargoId": "coordenador",
+      "produtos": {
+        "Bate Papo com Silva": 8
+      }
+    },
+    {
+      "usuarioId": "lucas123",
+      "cargoId": "coordenador",
+      "produtos": {}
+    },
+    {
+      "usuarioId": "lucas123",
+      "cargoId": "senior",
+      "produtos": {
+        "Consultoria com Michel": 0
+      }
+    },
+    {
+      "usuarioId": "lucas123",
+      "cargoId": "pleno",
+      "produtos": {
+        "Cafe com Danilo": 4,
+        "Acompanhamento com Celso": 3
+      }
+    },
+    {
+      "usuarioId": "lucas123",
+      "cargoId": "senior",
+      "produtos": {
+        "Cafe com Danilo": 4
+      }
+    },
+    {
+      "usuarioId": "lucas123",
+      "cargoId": "pleno",
+      "produtos": {
+        "Cafe com Danilo": 0
       }
     }
   ]

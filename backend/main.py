@@ -26,7 +26,7 @@ class FinalizaCompraRequest(BaseModel):
     produtos: dict
 
 # Simulação de banco de dados (arquivo local)
-DYNAMODB = "dynamodbjson"
+DYNAMODB = "dynamodb.json"
 RDS_FILE = "rds.json"
 
 def carregar_reservas():
@@ -88,6 +88,8 @@ async def lambdaCriaReserva(req: ReservaRequest):
 async def lambdaConsultaBilhete():
     try:
         reservas = carregar_reservas()
+        rds = carregar_rds()
+        compras = rds.get("compras", [])
         now = int(time.time())
 
         ocupados = []
@@ -102,12 +104,12 @@ async def lambdaConsultaBilhete():
         raise HTTPException(status_code=500, detail="Erro ao consultar reservas")
 
 @app.get("/consulta-produtos")
-async def consultar_produtos():
+async def lambdaConsultaProdutos():
     rds = carregar_rds()
     return rds.get("estoque", {})
 
 @app.post("/finaliza-compra")
-async def finaliza_compra(req: FinalizaCompraRequest):
+async def lambdaFinalizaCompra(req: FinalizaCompraRequest):
     rds = carregar_rds()
     estoque = rds.get("estoque", {})
     compras = rds.get("compras", [])

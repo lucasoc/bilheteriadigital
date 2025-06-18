@@ -216,7 +216,9 @@ Ao finalizar, os dados são enviados para `/finaliza-compra`.
 4. Use um login existente (ex: `lucas123` / `senha`) ou defina usuários válidos no backend.
 5. Escolha um cargo.
 6. Escolha produtos.
-7. Finalize.
+7. Finalize a compra.
+8. Chame via navegador a rota /conclui-pedido passando o pedidoId e o status true ou false.
+(exemplo de chamada http://localhost:8000/conclui-pedido?pedidoId=daf23fb5-7b1d-4f40-af8c-d243a146da53&statusId=false)
 
 ---
 

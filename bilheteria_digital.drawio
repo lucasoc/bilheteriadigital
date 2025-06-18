@@ -56,7 +56,7 @@
         <mxCell id="p1LMzBD9UgjammHEOANj-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="p1LMzBD9UgjammHEOANj-3" target="p1LMzBD9UgjammHEOANj-11" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="VvsXGlz48winkmg1cY79-40" value="get -&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="p1LMzBD9UgjammHEOANj-22">
+        <mxCell id="VvsXGlz48winkmg1cY79-40" value="get - /consulta-reserva" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="p1LMzBD9UgjammHEOANj-22">
           <mxGeometry x="0.6567" y="5" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import authFetch from "../utils/authFetch";
+
 function Produtos() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { cargo, expirationTime, usuarioId } = location.state || {};
+  const { cargo, expirationTime, usuarioId, pedidoId } = location.state || {};
 
   const [produtos, setProdutos] = useState({});
   const [selecionados, setSelecionados] = useState({});
@@ -20,7 +22,7 @@ function Produtos() {
         if (prev <= 1) {
           clearInterval(intervalo);
           alert("Sua reserva expirou. Retornando à tela inicial.");
-          navigate("/");
+          navigate("/Home", { state: { usuarioId: usuarioId } });
           return 0;
         }
         return prev - 1;
@@ -31,8 +33,28 @@ function Produtos() {
   }, [expirationTime, navigate]);
 
   useEffect(() => {
+    const intervaloVerificacao = setInterval(async () => {
+      try {
+        const response = await authFetch(`http://localhost:8000/consulta-reserva?usuarioId=${usuarioId}&pedidoId=${pedidoId}&cargoId=${cargo}`);
+  
+        const data = await response.json();
+  
+        if (!data.reservaValida) {
+          clearInterval(intervaloVerificacao);
+          alert("Sua reserva expirou ou foi invalidada. Redirecionando...");
+          navigate("/Home", { state: { usuarioId: usuarioId } });
+        }
+      } catch (error) {
+        console.error("Erro ao consultar reserva:", error);
+      }
+    }, 10000); // 10 segundos
+  
+    return () => clearInterval(intervaloVerificacao);
+  }, [usuarioId, pedidoId, cargo, navigate]);
+
+  useEffect(() => {
     const carregarProdutos = async () => {
-      const response = await fetch("http://localhost:8000/consulta-produtos");
+      const response = await authFetch("http://localhost:8000/consulta-produtos");
       const data = await response.json();
       setProdutos(data);
     };
@@ -49,19 +71,20 @@ function Produtos() {
 
   const finalizar = async () => {
     try {
-      const response = await fetch("http://localhost:8000/finaliza-compra", {
+      const response = await authFetch("http://localhost:8000/finaliza-compra", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           usuarioId,
           cargoId: cargo,
+          pedidoId: pedidoId,
           produtos: selecionados,
         }),
       });
       const data = await response.json();
       if (data.success) {
         alert("Inscrição finalizada com sucesso!");
-        navigate("/");
+        navigate("/Home", { state: { usuarioId: usuarioId } });
       } else {
         alert("Erro ao finalizar.");
       }

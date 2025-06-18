@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import authFetch from "../utils/authFetch";
 
 const opcoes = [
   { id: "junior", cargo: "Cargo Junior", cor: "#FFFFFF", texto: "#333" },
@@ -9,13 +11,15 @@ const opcoes = [
 ];
 
 function Home() {
+  const location = useLocation();
   const navigate = useNavigate();
   const [ocupados, setOcupados] = useState([]);
+  const { usuarioId } = location.state || {};
 
   useEffect(() => {
     async function carregarOcupados() {
       try {
-        const res = await fetch("http://localhost:8000/consulta-bilhete");
+        const res = await authFetch("http://localhost:8000/consulta-bilhete");
         const data = await res.json();
         setOcupados(data.ocupados || []);
       } catch (error) {
@@ -29,8 +33,7 @@ function Home() {
     if (ocupados.includes(cargoId)) return;
     
     try {
-      const usuarioId = "lucas"
-      const response = await fetch("http://localhost:8000/reserva", {
+      const response = await authFetch("http://localhost:8000/reserva", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -40,7 +43,7 @@ function Home() {
       });
       const data = await response.json();
       if (data.sucesso) {
-        navigate("/produtos", { state: { cargo: cargoId, expirationTime: data.expirationTime, usuarioId: usuarioId } });
+        navigate("/produtos", { state: { cargo: cargoId, expirationTime: data.expirationTime, usuarioId: usuarioId, pedidoId: data.pedidoId }});
       } else {
         alert("Esse cargo já está reservado!");
         window.location.reload();

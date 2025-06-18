@@ -1,55 +1,24 @@
 {
   "estoque": {
-    "Consultoria com Michel": 9,
+    "Consultoria com Michel": 8,
     "Cafe com Danilo": 4,
     "Bate Papo com Silva": 5,
-    "Acompanhamento com Celso": 9,
-    "Papo Carreira com Shindi": 8
+    "Acompanhamento com Celso": 6,
+    "Papo Carreira com Shindi": 6
   },
-  "compras": [
-    {
-      "usuarioId": "lucas",
-      "cargoId": "coordenador",
-      "produtos": {}
-    },
-    {
-      "usuarioId": "lucas",
-      "cargoId": "coordenador",
-      "produtos": {}
-    },
-    {
-      "usuarioId": "lucas",
-      "cargoId": "senior",
-      "produtos": {}
-    },
-    {
-      "usuarioId": "lucas",
-      "cargoId": "coordenador",
-      "produtos": {
-        "Cafe com Danilo": 1,
-        "Bate Papo com Silva": 1,
-        "Papo Carreira com Shindi": 1
-      }
-    },
-    {
-      "usuarioId": "lucas",
-      "cargoId": "pleno",
-      "produtos": {
-        "Bate Papo com Silva": 3
-      }
-    },
-    {
-      "usuarioId": "lucas",
-      "cargoId": "junior",
-      "produtos": {
-        "Cafe com Danilo": 4
-      }
-    }
-  ],
+  "compras": [],
   "vagas": {
-    "junior": 1,
-    "pleno": 1,
+    "junior": 2,
+    "pleno": 2,
     "senior": 2,
-    "coordenador": 1
+    "coordenador": 2
+  },
+  "users": {
+    "lucas123": {
+      "password": "$2b$12$wdk5efOey9gZFdFu9./BPe0m0jfuMorDX37DUkNNmLIMOdGKFycka"
+    },
+    "lucas321": {
+      "password": "$2b$12$wdk5efOey9gZFdFu9./BPe0m0jfuMorDX37DUkNNmLIMOdGKFycka"
+    }
   }
 }

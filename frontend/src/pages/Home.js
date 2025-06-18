@@ -27,19 +27,20 @@ function Home() {
 
   const reservarCargo = async (cargoId) => {
     if (ocupados.includes(cargoId)) return;
-
+    
     try {
+      const usuarioId = "lucas"
       const response = await fetch("http://localhost:8000/reserva", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           cargoId,
-          usuarioId: "lucas123"
+          usuarioId
         }),
       });
       const data = await response.json();
       if (data.sucesso) {
-        navigate("/produtos", { state: { cargo: cargoId, expirationTime: data.expirationTime } });
+        navigate("/produtos", { state: { cargo: cargoId, expirationTime: data.expirationTime, usuarioId: usuarioId } });
       } else {
         alert("Esse cargo já está reservado!");
         window.location.reload();

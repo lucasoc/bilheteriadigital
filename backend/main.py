@@ -49,34 +49,43 @@ def salvar_rds(data):
     with open(RDS_FILE, "w") as f:
         json.dump(data, f, indent=2)
 
+
 @app.post("/reserva")
 async def lambdaCriaReserva(req: ReservaRequest):
     try:
         reservas = carregar_reservas()
+        rds = carregar_rds()
+        vagas = rds.get("vagas", {})
         now = int(time.time())
-        expirado = False
-        print(req)
-        if req.cargoId in reservas:
-            if reservas[req.cargoId]["expirationTime"] > now:
-                return {
-            "success": False,
-            "expiradoAnteriormente": expirado,
-            "expirationTime": expiration_time
-        }
-            else:
-                expirado = True
+
+        # Inicializa lista se não existir
+        if req.cargoId not in reservas:
+            reservas[req.cargoId] = []
+
+        # Remove reservas expiradas
+        reservas[req.cargoId] = [
+            r for r in reservas[req.cargoId]
+            if r["expirationTime"] > now
+        ]
+
+        if vagas.get(req.cargoId, 0) <= len(reservas[req.cargoId]):
+            return {
+                "sucesso": False,
+                "expiradoAnteriormente": False,
+                "motivo": "Todas as vagas estão reservadas ou preenchidas"
+            }
 
         expiration_time = now + 60
-        reservas[req.cargoId] = {
+        reservas[req.cargoId].append({
             "usuarioId": req.usuarioId,
             "expirationTime": expiration_time
-        }
+        })
 
         salvar_reservas(reservas)
 
         return {
             "sucesso": True,
-            "expiradoAnteriormente": expirado,
+            "expiradoAnteriormente": False,
             "expirationTime": expiration_time
         }
 
@@ -84,18 +93,23 @@ async def lambdaCriaReserva(req: ReservaRequest):
         print(e)
         raise HTTPException(status_code=500, detail="Erro interno")
 
+
 @app.get("/consulta-bilhete")
 async def lambdaConsultaBilhete():
     try:
         reservas = carregar_reservas()
         rds = carregar_rds()
-        compras = rds.get("compras", [])
+        vagas = rds.get("vagas", {})
         now = int(time.time())
 
         ocupados = []
 
-        for cargo_id, dados in reservas.items():
-            if dados["expirationTime"] > now:
+        for cargo_id, total_vagas in vagas.items():
+            reservas_ativas = [
+                r for r in reservas.get(cargo_id, [])
+                if r["expirationTime"] > now
+            ]
+            if len(reservas_ativas) >= total_vagas:
                 ocupados.append(cargo_id)
 
         return {"ocupados": ocupados}
@@ -103,18 +117,27 @@ async def lambdaConsultaBilhete():
         print(e)
         raise HTTPException(status_code=500, detail="Erro ao consultar reservas")
 
+
 @app.get("/consulta-produtos")
 async def lambdaConsultaProdutos():
     rds = carregar_rds()
     return rds.get("estoque", {})
+
 
 @app.post("/finaliza-compra")
 async def lambdaFinalizaCompra(req: FinalizaCompraRequest):
     rds = carregar_rds()
     estoque = rds.get("estoque", {})
     compras = rds.get("compras", [])
+    vagas = rds.get("vagas", {})
 
-    # Verificação de estoque
+    if vagas.get(req.cargoId, 0) <= 0:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Não há mais vagas disponíveis para {req.cargoId}"
+        )
+
+    # Verificação e baixa no estoque
     for nome, quantidade in req.produtos.items():
         if nome not in estoque or estoque[nome] < quantidade:
             raise HTTPException(
@@ -123,17 +146,29 @@ async def lambdaFinalizaCompra(req: FinalizaCompraRequest):
             )
         estoque[nome] -= quantidade
 
-    # Adiciona compra ao histórico
+    # Reduz uma vaga
+    vagas[req.cargoId] -= 1
+
+    # Remove reserva do usuário
+    reservas = carregar_reservas()
+    if req.cargoId in reservas:
+        reservas[req.cargoId] = [
+            r for r in reservas[req.cargoId]
+            if r["usuarioId"] != req.usuarioId
+        ]
+    salvar_reservas(reservas)
+
+    # Salva a compra
     compras.append({
         "usuarioId": req.usuarioId,
         "cargoId": req.cargoId,
         "produtos": req.produtos
     })
 
-    # Salva alterações
     salvar_rds({
         "estoque": estoque,
-        "compras": compras
+        "compras": compras,
+        "vagas": vagas
     })
 
     return {"success": True}

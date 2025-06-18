@@ -1,91 +1,55 @@
 {
   "estoque": {
-    "Consultoria com Michel": 0,
-    "Cafe com Danilo": 0,
-    "Bate Papo com Silva": 0,
-    "Acompanhamento com Celso": 3,
-    "Papo Carreira com Shindi": 0
+    "Consultoria com Michel": 9,
+    "Cafe com Danilo": 4,
+    "Bate Papo com Silva": 5,
+    "Acompanhamento com Celso": 9,
+    "Papo Carreira com Shindi": 8
   },
   "compras": [
     {
-      "usuarioId": "lucas123",
-      "cargoId": "Cargo Junior",
-      "produtos": {
-        "Cafe com Danilo": 1,
-        "Papo Carreira com Shindi": 2
-      }
-    },
-    {
-      "usuarioId": "lucas123",
-      "cargoId": "coordenador",
-      "produtos": {
-        "Consultoria com Michel": 2
-      }
-    },
-    {
-      "usuarioId": "lucas123",
-      "cargoId": "senior",
-      "produtos": {
-        "Consultoria com Michel": 3
-      }
-    },
-    {
-      "usuarioId": "lucas123",
-      "cargoId": "coordenador",
-      "produtos": {
-        "Consultoria com Michel": 0,
-        "Papo Carreira com Shindi": 1,
-        "Cafe com Danilo": 2,
-        "Acompanhamento com Celso": 1
-      }
-    },
-    {
-      "usuarioId": "lucas123",
-      "cargoId": "junior",
-      "produtos": {
-        "Papo Carreira com Shindi": 5
-      }
-    },
-    {
-      "usuarioId": "lucas123",
-      "cargoId": "coordenador",
-      "produtos": {
-        "Bate Papo com Silva": 8
-      }
-    },
-    {
-      "usuarioId": "lucas123",
+      "usuarioId": "lucas",
       "cargoId": "coordenador",
       "produtos": {}
     },
     {
-      "usuarioId": "lucas123",
+      "usuarioId": "lucas",
+      "cargoId": "coordenador",
+      "produtos": {}
+    },
+    {
+      "usuarioId": "lucas",
       "cargoId": "senior",
+      "produtos": {}
+    },
+    {
+      "usuarioId": "lucas",
+      "cargoId": "coordenador",
       "produtos": {
-        "Consultoria com Michel": 0
+        "Cafe com Danilo": 1,
+        "Bate Papo com Silva": 1,
+        "Papo Carreira com Shindi": 1
       }
     },
     {
-      "usuarioId": "lucas123",
+      "usuarioId": "lucas",
       "cargoId": "pleno",
       "produtos": {
-        "Cafe com Danilo": 4,
-        "Acompanhamento com Celso": 3
+        "Bate Papo com Silva": 3
       }
     },
     {
-      "usuarioId": "lucas123",
-      "cargoId": "senior",
+      "usuarioId": "lucas",
+      "cargoId": "junior",
       "produtos": {
         "Cafe com Danilo": 4
       }
-    },
-    {
-      "usuarioId": "lucas123",
-      "cargoId": "pleno",
-      "produtos": {
-        "Cafe com Danilo": 0
-      }
     }
-  ]
+  ],
+  "vagas": {
+    "junior": 1,
+    "pleno": 1,
+    "senior": 2,
+    "coordenador": 1
+  }
 }

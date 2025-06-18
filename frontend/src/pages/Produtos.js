@@ -4,8 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 function Produtos() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { cargo, expirationTime } = location.state || {};
-  const usuarioId = "lucas123";
+  const { cargo, expirationTime, usuarioId } = location.state || {};
 
   const [produtos, setProdutos] = useState({});
   const [selecionados, setSelecionados] = useState({});
